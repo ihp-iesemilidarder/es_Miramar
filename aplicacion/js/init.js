@@ -1,5 +1,5 @@
 // Here are declared the constants and variables that will use in all the project.
-window.API = "http://localhost:5000/miramar";
+window.API = "http://192.168.0.4:5000/miramar";
 window.body = document.querySelector("body");
 
 export class DB{
@@ -26,9 +26,8 @@ export class DB{
         }
 
     }
-
+   // return the _id current with the filters specified
    async getId(filter){
-            console.log(filter);
             let res = await fetch(`${this.API}`);
             let data = await res.json();
             // variable that will contain the _id
@@ -115,7 +114,6 @@ export class DB{
     async update(id,data){
         try{
             data["id"]=id;
-            console.log(data);
             await fetch(this.API,{
                 method:'PUT',
                 headers:{
@@ -130,6 +128,18 @@ export class DB{
                 return false;
             }
         }
+    }
+
+    async add(data){
+        await fetch(this.API,{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(data),
+        });
+        return true;            
     }
 }
 

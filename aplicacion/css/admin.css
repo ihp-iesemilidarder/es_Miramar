@@ -2,17 +2,13 @@ body main#UserAdmin{
     display: grid;
     grid-template-areas: 
     'list list list list'
-    'tpu  tpu  user user';
+    'user user user user';
     grid-template-rows: repeat(2,50vh);
 }
 /* content for add new users */
     new-users{
     grid-area: user;
-    }
-
-/* content for add new tpuestos */
-    new-tpus{
-        grid-area: tpu;
+    padding: 1%;
     }
 
 users-list{
@@ -82,6 +78,54 @@ users-list{
             background: rgba(0, 0, 0, .2)!important;
         }
 
+/* form for add new users*/
+    new-users{
+        overflow: auto;
+        padding: 2%;
+    }
+    new-users form{
+        display: grid;
+        grid-gap: 20%;
+    }
+    new-users form input, new-users form select{
+        font-size: 1.2em;
+        padding: .5%;
+        background: transparent;
+        border-bottom:1px solid rgba(0,0,0,.2);
+        transition: .3s;
+        width: 100%;
+    }
+    new-users form input:hover, new-users form select:hover{
+        filter: drop-shadow(1px 1px 2px rgb(254, 186, 1));
+    }
+    new-users form input:focus, new-users form select:focus{
+        box-shadow: 1px 1px 7px rgb(254,186,1,.7) inset;
+        border-bottom:1px solid rgba(254,186,1,.2);
+    }
+
+    new-users form input[type='submit']{
+        font-size: 1.2em;
+        padding: .5%;
+        background: rgba(254, 186, 1);
+        border-radius: 10px 10px 0 0;
+        border:1px solid rgb(254, 186, 1);
+        transition: .3s;
+        cursor: pointer;
+        color: white;
+    }
+    new-users form input[type='submit']:hover{
+        border: 1px solid rgb(254, 186, 1);
+        background: transparent;
+        color: rgb(254, 186, 1);
+    }
+    new-users form div{
+        display: flex;
+    }
+    new-users form div input{
+        width: 40%;
+        margin: auto;
+    }
+
 body main#UserAdmin > .containers{
     background: #e7e7e5;
     border: 10px solid #feba01;
@@ -95,9 +139,8 @@ body main#UserAdmin > .containers{
         display: grid;
         grid-template-areas: 
         'list list list list'
-        'user user user user'
-        'tpu  tpu  tpu  tpu';
-        grid-template-rows: repeat(3,70vh);
+        'user user user user';
+        grid-template-rows: repeat(2,70vh);
     }
     body main#UserAdmin > .containers{
         border: 5px solid #feba01;
@@ -119,5 +162,8 @@ body main#UserAdmin > .containers{
     }
     data-user .select_tpuesto > div{
         width: 40%;
+    }
+    new-user{
+
     }
 }

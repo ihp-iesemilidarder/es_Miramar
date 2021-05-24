@@ -56,7 +56,7 @@ export class ListUsersManager extends HTMLElement {
     async printUsers(){
         let json = await new DB(`empxtpus`).show();
         for(let el of json){
-            this.html+=`<data-user name='${el._id.NOMBRE}' lastname='${el._id.APELLIDOS.toString().replace(/\,/gi,' ',)}' tpuesto='${el.id_tpuesto.NOMBRE}'></data-user>`;
+            this.html+=`<data-user name='${el._id.NOMBRE}' lastname='${el._id.APELLIDOS.toString().replace(/\,/gi,' ',)}' tpuesto='${el.id_tpuesto.NOMBRE}' password='new-password'></data-user>`;
         }
         this.innerHTML=this.html;
     }
@@ -74,6 +74,7 @@ export class Users extends HTMLElement {
         this.name=this.getAttribute('name');
         this.lastname=this.getAttribute('lastname');
         this.tpuesto=this.getAttribute('tpuesto');
+        this.password=this.getAttribute('password');
         this.buttonDel = this.querySelector('.delete');
     }
 
@@ -89,6 +90,7 @@ export class Users extends HTMLElement {
         <div class='data'>
             <span class='name'>${this.name}</span>
             <span class='lastname'>${this.lastname}</span>
+            <span class='password'>${this.password}</span>
             <div class='select_tpuesto'><span class='tpuesto'>${this.tpuesto}</span></div>
         </div>
         <div>
@@ -132,24 +134,28 @@ export class Users extends HTMLElement {
     }
 
     // the event for edit a user
-        activeEditable(name,lastname){
+        activeEditable(name,lastname,password){
             name.setAttribute('contenteditable','');
-            lastname.setAttribute('contenteditable',''); 
+            lastname.setAttribute('contenteditable','');
+            password.setAttribute('contenteditable',''); 
 
             this.printTpuestos();                  
         }
 
-        disableEditable(name,lastname){
+        disableEditable(name,lastname,password){
             name.removeAttribute('contenteditable');
             lastname.removeAttribute('contenteditable');
+            password.removeAttribute('contenteditable');
             this.querySelector('.data .select_tpuesto > div').remove();
             this.updateUser();
         }
 
     async updateUser(){
+        let password = this.querySelector('.data .password').textContent;
         let postData = {
             NOMBRE: this.querySelector('.data .name').textContent,
-            APELLIDOS: this.querySelector('.data .lastname').textContent.split(' ')
+            APELLIDOS: this.querySelector('.data .lastname').textContent.split(' '),
+            CONTRASENA: sha512(password)
         }
         let previousData = {
             nombre: this.name,
@@ -157,10 +163,9 @@ export class Users extends HTMLElement {
         }
         let postTpuesto = this.querySelector('.data .tpuesto').textContent;
         try{
-            console.log(previousData);
             let id = await new DB(`empleados`).getId(Object.values(previousData));
-            console.log(id);
             // update the 'empleados'
+            if(password=='new-password') delete postData['CONTRASENA'];
             await new DB(`empleados`).update(id,postData);
             // update the 'empxtpus'
             let idTpuestoCurrent = await new DB(`tpuestos`).getId([postTpuesto]);
@@ -179,13 +184,14 @@ export class Users extends HTMLElement {
     editUser(){
         let spanName = this.querySelector('.data .name');
         let spanLastName = this.querySelector('.data .lastname');
+        let spanPassword = this.querySelector('.data .password');
         let icon = this.querySelector('i.modify');
 
         if(String(icon.classList).includes('fa-user-edit')){
-            this.activeEditable(spanName,spanLastName);
+            this.activeEditable(spanName,spanLastName,spanPassword);
  
         }else if(String(icon.classList).includes('fa-user-check')){
-            this.disableEditable(spanName,spanLastName);
+            this.disableEditable(spanName,spanLastName,spanPassword);
         }
         icon.classList.toggle('fa-user-check');
         icon.classList.toggle('fa-user-edit');
@@ -213,12 +219,106 @@ export class Users extends HTMLElement {
         }
 };
 
-export class NewUsersManager extends HTMLElement {}
-export class NewTpuManager extends HTMLElement {}
+export class NewUsersManager extends HTMLElement {
+    constructor(){
+        super();
+        this.html=``;
+        this.form;
+    }
+
+    async connectedCallback(){
+        await this.printForm();
+        this.addEventListener('click', await this.eventsForm);
+        this.innerHTML=this.html;
+    }
+
+    async printTpuestos(){
+        let tpuestos = await new DB(`tpuestos`).show();
+        let html = ``;
+        for(let tpuesto of tpuestos){
+            html+=`<option value='${tpuesto.NOMBRE}'>${tpuesto.NOMBRE}</option>`;
+        }
+        return html;
+    }
+
+    async  printForm(){
+        this.html=`
+            <form method='POST' id='formUser'>
+                <input type='text' name='name' id='name' placeholder='nombre'>
+                <div id='lastname'>
+                    <input type='text' name='lastname1' id='lastname1' placeholder='1º apellido'>
+                    <input type='text' name='lastname2' id='lastname2' placeholder='2º apellido'>
+                </div>
+                <input type='date' name='birth' id='birth' placeholder='fecha de nacimiento'>
+                <input type='password' name='password' id='password' placeholder='contraseña'>
+                <select id='gender' name='gender'>
+                    <option disabled selected value=''>-- genero --</option>
+                    <option value='F'>Femenino</option>
+                    <option value='M'>Masculino</option>
+                </select>
+                <select id='tpuesto' name='tpuesto'>
+                    <option disabled selected value=''>-- tpuesto --</option>
+                    ${await this.printTpuestos()}
+                </select>
+                <input type='submit' name='submit' value='Añadir'>
+            </form>
+        `;
+    }
+
+    async eventsForm(e){
+        e.preventDefault();
+        let name = e.target.getAttribute('name');
+        switch(name){
+            case "submit": await this.addUser(); break;
+        }
+    }
+    async addUser(){
+        this.form = this.querySelector('form');
+        let tpuesto = this.form['tpuesto'].value.trim();
+        let name = this.form['name'].value.trim();
+        let lastname1 = this.form['lastname1'].value.trim();
+        let lastname2 = this.form['lastname2'].value.trim();
+        let birth = this.form['birth'].value.trim();
+        let gender = this.form['gender'].value.trim();
+        let password = this.form['password'].value.trim();
+        let data = {
+            NOMBRE:name,
+            APELLIDOS:[lastname1,lastname2],
+            NACIMIENTO: new Date(birth),
+            GENERO:gender,
+            CONTRASENA:sha512(password)
+        };
+        if(
+            name=='' || lastname1=='' || lastname2=='' ||
+            birth=='' || gender=='' || password=='' || tpuesto==''
+        ){
+            showMessage('Hay campos vacios',false);
+        }else if(lastname1.split(' ').length > 1 || lastname2.split(' ').length > 1){
+            showMessage('Los apellidos tienen espacios',false);
+            return false;        
+        } else if(new Date(birth) > new Date()){
+            showMessage('La fecha es actual o posterior',false);
+            return false;
+        }else{
+            try{
+                await new DB(`empleados`).add(data);
+                document.querySelector('users-list').innerHTML+=`
+                    <data-user name='${name}' lastname='${lastname1} ${lastname2}' tpuesto='${tpuesto}' password='new-password'></data-user>
+                `;
+                showMessage('Usuario añadido correctamente',true);
+            }catch(err){
+                if(typeof Promise){
+                    showMessage('Error al añadir usuario',false);
+                }else if(typeof Error){
+                    showMessage('Error inesperado durante el envio',false);
+                }
+            }
+        }
+    }
+}
 window.customElements.define("box-message", Message);
 window.customElements.define("exposition-menu", Exposition);
 window.customElements.define("exposition-card", Card);
 window.customElements.define("users-list", ListUsersManager);
-window.customElements.define("new-tpus", NewUsersManager);
-window.customElements.define("new-users", NewTpuManager);
+window.customElements.define("new-users", NewUsersManager);
 window.customElements.define('data-user',Users);
