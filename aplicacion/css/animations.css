@@ -1,0 +1,18 @@
+@keyframes showForm{
+    0%{
+        display: block;
+        transform: scale(0);
+    }
+    100%{
+        display: block;
+        transform: scale(1);
+    }
+}
+@keyframes showMessageAnimation{
+    0%{
+        left: -100%;
+    }
+    100%{
+        left: 10%;
+    }
+}

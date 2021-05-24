@@ -1,0 +1,153 @@
+body #popupForm{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    display: none;
+}
+/*form's background*/
+    body #popupForm > .block{
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        background-color: rgba(0,0,0,.5);
+    }
+    body #popupForm > div.block+div{
+        background: transparent;
+        height: 100vh;
+    }
+/* form */
+    body #popupForm > div > form{
+        background: rgb(137, 137, 137);
+        width: 600px;       
+        top: calc(100%/4);
+        position: relative;
+        height: 50%;
+        margin: auto;
+        z-index: 2;
+        border-radius: 5%;
+        box-shadow: 5px 5px 15px rgba(0,0,0,.2);
+        display: none;
+        animation: showForm 1s;
+    }
+    body #popupForm > div > form > div{
+        margin:10% 5%;
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+        grid-gap: 50%;
+    }
+    body #popupForm > div > form > div > div{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+        grid-gap: 40%;
+    }
+    body #popupForm > div > form > div > div > div{
+        display: flex;
+    }
+    body #popupForm > div > form > div > div > div > input{
+        width: 100%;
+        font-size: 1.2em;
+        padding:0 2%;
+        background: transparent;
+        border-bottom: 2px solid rgba(255,255,255,.5);
+        color: white;
+        transition: .5s;
+    }
+    body #popupForm > div > form > div > div > div:hover > input{
+        border-bottom: 2px solid rgba(255,255,255);
+    }
+    body #popupForm > div > form > div > div > div:hover > span{
+        background:rgba(255,255,255);
+    }
+    body #popupForm > div > form > div > div > div > input:focus{
+        background:rgba(255,255,255,.2);
+        border-radius: 0 10px 0 0;
+    }
+    body #popupForm > div > form > div > div > div > span{
+        padding:2%;
+        font-size: 1.5em;
+        background: rgba(255,255,255,.5);
+        border-radius: 10px 0 0;
+        color:rgba(0,0,0,.5);
+        transition: .5s;
+    }
+    body #popupForm > div > form  i.closeForm{
+        font-size: 2em;
+        position: absolute;
+        top: 0;
+        left: -20px;
+        color: white;
+        cursor: pointer;
+    }
+    body #popupForm > div > form > h2{
+        font-family: 'arabella';
+        
+        font-size: 5em;
+        text-align: center;
+        color: rgba(255,255,255,.5);
+    }
+    body #popupForm > div > form input[type='submit']{
+        padding: 2%;
+        border:2px solid transparent;
+        border-radius: 10px;
+        background: rgba(255,255,255,.8);
+        cursor: pointer;
+        font-size: 1.2em;
+        color:rgba(0,0,0,.8);
+        transition: 1s;
+    }
+/* form animations' styles */
+    body #popupForm > div > form input[type='submit'].logged{
+        background: rgb(31, 193, 3);
+        color: white;
+    }
+    body #popupForm > div > form input[type='submit'].logged:focus{
+        box-shadow: 3px 3px 10px rgba(89, 255, 60,.5);
+        border:2px solid rgba(89, 255, 60,.5);
+        background: transparent;
+        color: rgba(89, 255, 60,.5);
+        box-shadow: 3px 3px 10px rgba(89, 255, 60,.5) inset;
+        transform: scale(0.99);
+    }
+    body #popupForm > div > form input[type='submit'].nologged{
+        background: rgba(255, 60, 60, 0.8);
+        color: white;
+    }
+    body #popupForm > div > form input[type='submit'].nologged:focus{
+        box-shadow: 3px 3px 10px rgba(255, 60, 60,.5);
+        border:2px solid rgba(255, 60, 60,.5);
+        background: transparent;
+        color: rgba(255, 60, 60,.5);
+        box-shadow: 3px 3px 10px rgba(255, 60, 60,.5) inset;
+        transform: scale(0.99);
+    }
+    body #popupForm > div > form input[type='submit']:hover{
+        box-shadow: 3px 3px 10px rgba(0,0,0,.5);
+        transform: scale(1.02);
+    }
+    body #popupForm > div > form input[type='submit']:focus{
+        box-shadow: 3px 3px 10px rgba(0,0,0,.5);
+        border:2px solid rgba(255,255,255,.5);
+        background: transparent;
+        color: rgba(255,255,255,.5);
+        box-shadow: 3px 3px 10px rgba(255,255,255,.5) inset;
+        transform: scale(0.99);
+    }
+
+/*  mobile  */
+    @media (max-width:600px){
+        body #popupForm > div > form{
+            width: 300px;
+            top: calc(100%/10);
+        }
+        body #popupForm > div > form > div{
+            margin: 15% 5%;
+        }
+        body #popupForm > div > form > div > div > div > span{
+            padding: 4%;
+            font-size: 1em;
+        }
+    }

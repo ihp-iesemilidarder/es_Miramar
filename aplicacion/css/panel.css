@@ -1,0 +1,37 @@
+@import './admin.css';
+
+body i.logoutSession{
+    font-size: 2.5em;
+    margin: 2% 0 2% 2%;
+    color:white;
+    right: -4%;
+    padding: 1.7%;
+    border-radius: 100%;
+    background: #2289da;
+    position: fixed;
+    box-shadow:24px 16px 10px rgba(0,0,0,.5);
+    cursor: pointer;
+    border:2px solid #4da4e8;
+    transition: .3s;
+    z-index: 999999;
+}
+body i.logoutSession:hover{
+    transform: translateX(-40px);
+}
+body i.logoutSession:active{
+    transform: translateX(10px) scale(0.9);
+    background: white;
+    color: #4da4e8;
+    border: 2px solid #4da4e8;
+}
+@media (max-width:600px){
+    body i.logoutSession{
+        font-size: 2em;
+        margin: 2% 3%;
+        bottom:0;
+        right: -2%;
+    }
+    body i.logoutSession:hover{
+        transform: translateX(10px);
+    }
+}

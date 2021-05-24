@@ -1,0 +1,38 @@
+/*land page*/
+@import 'coverpage.css';
+@import 'fonts.css';
+
+/*user's control panel*/
+@import 'panel.css';
+@import 'animations.css';
+*{
+    border: none;
+    user-select: none;
+    margin: 0;
+}
+body{
+    background-image: url(../img/back.jpg);
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+body box-message{
+    position: fixed;
+    padding: 2% 5%;
+    border-radius: 10px;
+    margin: auto;
+    color: white;
+    font-weight: bold;
+    box-shadow: 5px 5px 10px rgba(0,0,0,.5);
+    margin: 2% 0;
+    top: 0;
+    left: 10%;
+    animation: showMessageAnimation 1s;
+}
+@media (max-width:600px){
+    body box-message{
+        padding: 4% 10%;
+        margin: 4% 0;
+    }
+}

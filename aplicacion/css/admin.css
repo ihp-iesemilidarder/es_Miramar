@@ -1,0 +1,123 @@
+body main#UserAdmin{
+    display: grid;
+    grid-template-areas: 
+    'list list list list'
+    'tpu  tpu  user user';
+    grid-template-rows: repeat(2,50vh);
+}
+/* content for add new users */
+    new-users{
+    grid-area: user;
+    }
+
+/* content for add new tpuestos */
+    new-tpus{
+        grid-area: tpu;
+    }
+
+users-list{
+    grid-area: list;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+/* Each users list' item */
+    data-user{
+        display: flex;
+        border-bottom: 1px solid rgba(0, 0, 0, .2);
+        margin: 1%;
+        padding: 1%;
+    }
+    data-user img{
+        width: 6%;
+    }
+    data-user > div{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        max-width: 70%;
+    }
+    data-user > div:last-child{
+        font-size: 2em;
+        width: 30%;
+        cursor: pointer;
+    }
+    data-user div i{ cursor: pointer; transition: .3s; }
+    data-user div .fa-trash{ color: rgb(255, 73, 73); }
+    data-user div .fa-user-edit{ color: rgb(73, 152, 255); }
+    data-user div .fa-user-check{ color:rgb(10, 151, 0) }
+    data-user div i:hover{ transform: scale(1.2); }
+    data-user > div span{
+        font-size: 1.5em;
+        font-family: kinder;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 500px;
+    }
+
+    data-user .data > span[contenteditable]{
+        filter: drop-shadow(5px 5px 1px rgba(0,0,0,.2));
+    }
+    /* select tpuesto*/
+        data-user .select_tpuesto:hover > div{
+            display:flex;
+        }
+        data-user .select_tpuesto > div{
+            display: none;
+            flex-direction: column;
+            font-size: .8em;
+            margin-left: 2%;
+            width: 20%;
+            border:1px solid black;
+            background: #e7e7e5;
+            position: fixed;
+        }
+        data-user .select_tpuesto > div span{
+            padding: .2%;
+            cursor: pointer;
+            transition: .3s;
+        }
+        data-user .select_tpuesto > div span:hover{
+            background: rgba(0, 0, 0, .2)!important;
+        }
+
+body main#UserAdmin > .containers{
+    background: #e7e7e5;
+    border: 10px solid #feba01;
+    position: relative;
+    margin: 1%;
+}
+
+/* mobile */
+@media (max-width:600px){
+    body main#UserAdmin{
+        display: grid;
+        grid-template-areas: 
+        'list list list list'
+        'user user user user'
+        'tpu  tpu  tpu  tpu';
+        grid-template-rows: repeat(3,70vh);
+    }
+    body main#UserAdmin > .containers{
+        border: 5px solid #feba01;
+        margin: 3%;
+    }
+    data-user img{
+        width: 30%;
+        transform: scale(.5);
+    }
+    data-user > div{
+        max-width: 86%;
+        flex-direction: column;
+    }
+    data-user > div:last-child {
+        font-size: 2em;
+        width: 10%;
+        cursor: pointer;
+        margin: 0 5% 0 0;
+    }
+    data-user .select_tpuesto > div{
+        width: 40%;
+    }
+}

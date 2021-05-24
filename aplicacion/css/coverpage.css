@@ -1,0 +1,163 @@
+@import url('./login.css');
+#container{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 100vh 100vh 100vh 100vh auto;
+}
+/*land page*/
+    main#coverpage{
+        background-image: url(../img/logo.png);
+        background-position:center 30%;
+        background-repeat: no-repeat;
+        background-size: 30%;
+    }
+main#coverpage button{
+    text-decoration: none;
+    font-family: "ShadowIntoLight";
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+    position: fixed;
+    cursor: pointer;
+    right: 0;
+    margin: 2%;
+    background: #af9774;
+    padding: .5% 5%;
+    border-radius: 50px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,.5);
+    transition: .3s;
+}
+main#coverpage button:hover{
+    transform: scale(1.1);
+    transition: .3s;
+}
+/*items' contents*/
+    exposition-menu {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: 10% auto;
+    }
+    exposition-menu > div:first-child{
+        background-color: transparent;
+    }
+    exposition-menu > div:first-child > h2{
+        color: white;
+        font-family: "ShadowIntoLight";
+        font-size: 2em;
+        margin: 0 5%;
+        background: linear-gradient(to right, #b8966a,#b8966a,#649fcb);
+        border-radius: 100px;
+        padding: 0 5%;
+    }
+    /*items of a content*/
+        exposition-menu > div:last-child{
+            display: grid;
+            grid-template-columns: 25% 25% 25% 25%;
+            margin: 0 2% 2% 2%;
+            overflow: auto;
+            grid-auto-rows: 70%;
+        }
+        /*each item*/
+            exposition-menu > div:last-child > exposition-card {
+                transition: 0.3s;
+                width: 80%;
+                background: #fcf5ea;
+                margin: 0 auto 5% auto;
+                border-radius: 10px;
+            }
+            exposition-menu > div:last-child > exposition-card  img{
+                width: 100%;
+                border-radius: 10px 10px 0 0;
+            }
+            exposition-menu > div:last-child > exposition-card  .container{
+                padding: 2px 16px;
+                text-align: center;
+            }
+            exposition-menu > div:last-child > exposition-card  .container h3{
+                margin: 2%;
+                max-height: 46px;
+                overflow: auto;
+            }
+            exposition-menu > div:last-child > exposition-card  .container p{
+                margin: 4% 0;
+                overflow: auto;
+                word-break: break-all;
+                max-height: 4em;
+            }
+/*footer*/
+    body #container > footer{
+        background: linear-gradient(transparent,#69a4d0f0,#649fcb);
+        display: flex;
+        justify-content: space-between;
+    }
+    /*media socials*/
+        body #container > footer > div:first-child{
+            display: flex;
+            flex-direction: column;
+            font-size: 3em;
+            margin: 4%;
+        }
+        body #container > footer > div:first-child i{
+            padding: 40% 0;
+        }
+        body #container > footer > div:first-child .fa-facebook{
+            color:#008efa;
+        }
+        body #container > footer > div:first-child .fa-instagram{
+            color:#f783ac;
+        }
+        body #container > footer > div:first-child .fa-youtube{
+            color:red;
+        }
+    /*google maps*/
+        body #container > footer > div:last-child{
+            display: flex;
+            width: 40%;
+            flex-direction: column;
+        }
+        body #container > footer > div:last-child *{
+            margin: 5%;
+        }
+@media(max-width:768px){
+    main#coverpage{
+        background-size: 50%;
+    }
+    exposition-menu > div:last-child{
+        grid-template-columns: 50% 50%;
+    }
+    exposition-menu > div:last-child > div .container h3{
+        margin: 2%;
+        max-height: 4em;
+        overflow: auto;
+    }
+    exposition-menu > div:last-child > div{
+        width: 90%;
+    }
+    body #container > footer > div:last-child{
+        width: 100%;
+    }
+
+}
+@media(max-width:600px){
+    main#coverpage{
+        background-size: 80%;
+    }
+    exposition-menu > div:last-child{
+        grid-template-columns: auto;
+        margin: 3% 5%;
+    }
+    exposition-menu > div:last-child{
+        grid-auto-rows: 90%;
+    }
+    exposition-menu > div:last-child > div .container h3{
+        max-height: 1em;
+    }
+    exposition-menu > div:first-child > h2{
+        font-size: 1.5em;
+    }
+    main#coverpage a{
+        font-size: 1.2em;
+        margin: 4%;
+        padding: 1% 10%;
+    }
+}
