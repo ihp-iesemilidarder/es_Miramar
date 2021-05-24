@@ -56,7 +56,7 @@ export class ListUsersManager extends HTMLElement {
     async printUsers(){
         let json = await new DB(`empxtpus`).show();
         for(let el of json){
-            this.html+=`<data-user name='${el._id.NOMBRE}' lastname='${el._id.APELLIDOS.toString().replace(',',' ')}' tpuesto='${el.id_tpuesto.NOMBRE}'></data-user>`;
+            this.html+=`<data-user name='${el._id.NOMBRE}' lastname='${el._id.APELLIDOS.toString().replace(/\,/gi,' ',)}' tpuesto='${el.id_tpuesto.NOMBRE}'></data-user>`;
         }
         this.innerHTML=this.html;
     }
@@ -82,7 +82,7 @@ export class Users extends HTMLElement {
         this.addEventListener('click',this.eventDom);
         this.innerHTML=this.html;
     }
-
+    // Print each user
     printUser(){
         this.html+=`
         <img src='img/user.png'>
@@ -96,7 +96,7 @@ export class Users extends HTMLElement {
             <i class='fas fa-trash'></i>
         </div>`;
     }
-
+    // the event of each user
     eventDom(e){
         e.preventDefault();
         let dom = String(e.target.classList);
@@ -107,6 +107,7 @@ export class Users extends HTMLElement {
         }
     }
 
+    // delete a user
     async delUser(){
         let json = await new DB(`empxtpus`).show();
         let tpuesto = this.querySelector(".data .tpuesto").textContent;
@@ -130,19 +131,20 @@ export class Users extends HTMLElement {
         }
     }
 
-    activeEditable(name,lastname){
-        name.setAttribute('contenteditable','');
-        lastname.setAttribute('contenteditable',''); 
+    // the event for edit a user
+        activeEditable(name,lastname){
+            name.setAttribute('contenteditable','');
+            lastname.setAttribute('contenteditable',''); 
 
-        this.printTpuestos();                  
-    }
+            this.printTpuestos();                  
+        }
 
-    disableEditable(name,lastname){
-        name.removeAttribute('contenteditable');
-        lastname.removeAttribute('contenteditable');
-        this.querySelector('.data .select_tpuesto > div').remove();
-        this.updateUser();
-    }
+        disableEditable(name,lastname){
+            name.removeAttribute('contenteditable');
+            lastname.removeAttribute('contenteditable');
+            this.querySelector('.data .select_tpuesto > div').remove();
+            this.updateUser();
+        }
 
     async updateUser(){
         let postData = {
@@ -188,27 +190,27 @@ export class Users extends HTMLElement {
         icon.classList.toggle('fa-user-check');
         icon.classList.toggle('fa-user-edit');
     }
-
-    async renameTpuesto(e){
-        let dom = e.target;
-        let text = dom.textContent;
-        let tpuesto = dom.parentNode.parentNode.querySelector('span');
-        tpuesto.textContent=text;
-    }
-
-    async printTpuestos(){
-        let spanTpuesto = this.querySelector('.data .select_tpuesto');
-        let selectors = document.createElement('div');
-        let json = await new DB(`tpuestos`).show();
-        for(let el of json){
-            let span = document.createElement('span');
-            let text = document.createTextNode(el.NOMBRE);
-            span.append(text);
-            span.addEventListener('click',this.renameTpuesto);
-            selectors.appendChild(span);
+    // print the tpuestos' select of each user
+        async renameTpuesto(e){
+            let dom = e.target;
+            let text = dom.textContent;
+            let tpuesto = dom.parentNode.parentNode.querySelector('span');
+            tpuesto.textContent=text;
         }
-        spanTpuesto.appendChild(selectors);
-    }
+
+        async printTpuestos(){
+            let spanTpuesto = this.querySelector('.data .select_tpuesto');
+            let selectors = document.createElement('div');
+            let json = await new DB(`tpuestos`).show();
+            for(let el of json){
+                let span = document.createElement('span');
+                let text = document.createTextNode(el.NOMBRE);
+                span.append(text);
+                span.addEventListener('click',this.renameTpuesto);
+                selectors.appendChild(span);
+            }
+            spanTpuesto.appendChild(selectors);
+        }
 };
 
 export class NewUsersManager extends HTMLElement {}
