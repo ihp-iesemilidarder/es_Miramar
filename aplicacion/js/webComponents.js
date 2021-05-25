@@ -302,6 +302,11 @@ export class NewUsersManager extends HTMLElement {
         }else{
             try{
                 await new DB(`empleados`).add(data);
+                let empxtpus = {
+                    _id:await new DB(`empleados`).getId(Object.values(data)),
+                    id_tpuesto:await new DB(`tpuestos`).getId([tpuesto])
+                }
+                await new DB(`empxtpus`).add(empxtpus);
                 document.querySelector('users-list').innerHTML+=`
                     <data-user name='${name}' lastname='${lastname1} ${lastname2}' tpuesto='${tpuesto}' password='new-password'></data-user>
                 `;
