@@ -4,12 +4,12 @@ const Pedidos = require('./Pedidos');
 const Schema = mongoose.Schema;
 
 const pedxbebsSchema = new Schema({
-    _id:{
-        type: Schema.ObjectId,
+    id_pedido:{
+        type: String,
         ref: Pedidos
     },
     id_bebida:{
-        type:Schema.ObjectId,
+        type:String,
         ref:Bebidas
     }
 },

@@ -33,8 +33,10 @@ export class DB{
             // variable that will contain the _id
             let id;
             let getObj;
-            let check = 0;
+            console.log(filter);
+            console.log(data);
             for(let obj of data){
+                let check = 0;
                 //get all current object's values
                 let values = Object.values(obj);
                 for(let word of filter){
@@ -53,27 +55,49 @@ export class DB{
                                         if(subvalue==subword){
                                             check++;
                                             getObj=obj;
+                                            console.log(`subvalue:${subvalue}==subword:${subword}  ${check} 1++`);
                                         }                                        
                                     }
                                 }else{
                                     if(subvalue==word){
                                         check++;
                                         getObj=obj;
+                                        console.log(`subvalue:${subvalue}==word:${word}  ${check} 1++`);
                                     }  
                                 }
-                            }                            
+                            }
+                        }else if(typeof value == 'object'){
+                            console.log("=========VALUE IS OBJECT==============");
+                            console.log(value);
+                            if(Array.isArray(word)){
+                                for(let subword of word){
+                                    if(value._id==subword){
+                                        check++;
+                                        getObj=obj;
+                                        console.log(`value:${value}==subword:${subword}  ${check} 1++`);
+                                    }                                        
+                                }
+                            }else{
+                                if(value._id==word){
+                                    check++;
+                                    getObj=obj;
+                                    console.log(`value:${value}==word:${word}  ${check} 1++`);
+                                }  
+                            }                        
                         }else{
                             if(Array.isArray(word)){
                                 for(let subword of word){
                                     if(value==subword){
                                         check++;
                                         getObj=obj;
+                                        console.log(`value:${value}==subword:${subword}  ${check} 1++`);
                                     }                                        
                                 }
                             }else{
                                 if(value==word){
                                     check++;
                                     getObj=obj;
+                                    console.log(`value:${value}==word:${word}  ${check} 1++`);
                                 }  
                             }
                         }
@@ -90,11 +114,15 @@ export class DB{
                         count++;
                     }
                 }
+                console.log(`check:${check},count:${count}`);
                 if(check==count){
+                    console.log(`${check}==${count}`);
                     id=getObj._id;
+                    console.log(getObj);
                     break;
                 }else{
                     id=false;
+                    check=0;
                 }
             }
             return id;

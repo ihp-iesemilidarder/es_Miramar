@@ -2,7 +2,7 @@ const Pedxbebs = require('../models/Pedxbebs');
 
 exports.mostrarPedxbebs = async (req, res, next) => {
     try {
-        const pedxbebs = await Pedxbebs.find({}).populate('_id').populate('id_bebida');
+        const pedxbebs = await Pedxbebs.find({}).populate('id_pedido',{_id:0}).populate('id_bebida',{_id:0});
         res.json(pedxbebs);
     } catch (error) {
         console.log(error);
@@ -12,12 +12,7 @@ exports.mostrarPedxbebs = async (req, res, next) => {
 
 // Muestra un curso en especifico por su ID
 exports.mostrarPedxbeb = async (req, res, next) => {
-    const pedxbeb = await Pedxbebs.findById(req.params.idPedxbeb).populate('_id',{
-        _id:0,
-        CHECK:0
-    }).populate('id_bebida',{
-        _id:0
-    });
+    const pedxbeb = await Pedxbebs.findById(req.params.idPedxbeb).populate('id_pedido',{_id:0}).populate('id_bebida',{_id:0});
 
     if(!pedxbeb) {
         res.json({mensaje : 'Ese Pedxbeb no existe'});

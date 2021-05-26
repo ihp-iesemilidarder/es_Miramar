@@ -65,13 +65,13 @@ async function login(e){
         let password = sha512(formLogin['pass'].value);
         let user = formLogin['user'].value;
         let json = await new DB(`empxtpus`).show();
-        if(json.find(el=>(el._id.NOMBRE==user && el._id.CONTRASENA==password))){
+        if(json.find(el=>(el.id_empleado.NOMBRE==user && el.id_empleado.CONTRASENA==password))){
             resultLogin(true,'login successfully');
             new Storage("localStorage").add({
                 keySession:tokenGeneator(5),
                 dateExpire:new DateOperators().increment(0,0,0,1,.1,-1,-1),
                 userSession: user,
-                profile:json.find(el=>(el._id.NOMBRE==user)).id_tpuesto.NOMBRE
+                profile:json.find(el=>(el.id_empleado.NOMBRE==user)).id_tpuesto.NOMBRE
             });
             setTimeout(()=>enter(),1000);
         }else{

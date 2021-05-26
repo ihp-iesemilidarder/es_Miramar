@@ -2,7 +2,7 @@ const Empxtpus = require('../models/Empxtpus');
 
 exports.mostrarEmpxtpus = async (req, res, next) => {
     try {
-        const empxtpus = await Empxtpus.find({}).populate('_id').populate('id_tpuesto');
+        const empxtpus = await Empxtpus.find({}).populate('id_empleado').populate('id_tpuesto');
         res.json(empxtpus);
     } catch (error) {
         console.log(error);
@@ -12,7 +12,7 @@ exports.mostrarEmpxtpus = async (req, res, next) => {
 
 // Muestra un curso en especifico por su ID
 exports.mostrarEmpxtpu = async (req, res, next) => {
-    const empxtpu = await Empxtpus.findById(req.params.idEmpxtpu).populate('_id',{_id:0}).populate('id_tpuesto',{_id:0});
+    const empxtpu = await Empxtpus.findById(req.params.idEmpxtpu).populate('id_empleado',{_id:0}).populate('id_tpuesto',{_id:0});
 
     if(!empxtpu) {
         res.json({mensaje : 'Ese Empxtpu no existe'});

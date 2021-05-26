@@ -56,7 +56,7 @@ export class ListUsersManager extends HTMLElement {
     async printUsers(){
         let json = await new DB(`empxtpus`).show();
         for(let el of json){
-            this.html+=`<data-user name='${el._id.NOMBRE}' lastname='${el._id.APELLIDOS.toString().replace(/\,/gi,' ',)}' tpuesto='${el.id_tpuesto.NOMBRE}' password='new-password'></data-user>`;
+            this.html+=`<data-user name='${el.id_empleado.NOMBRE}' lastname='${el.id_empleado.APELLIDOS.toString().replace(/\,/gi,' ',)}' tpuesto='${el.id_tpuesto.NOMBRE}' password='new-password'></data-user>`;
         }
         this.innerHTML=this.html;
     }
@@ -119,10 +119,12 @@ export class Users extends HTMLElement {
         if((users.length > 1) || (tpuesto != "admin")){
             let nombre = this.name;
             let apellidos = this.lastname;
-            let idKey = await idUser(nombre,apellidos);
+            let idKeyEmpleado = await idUser(nombre,apellidos);
+            let idKeyEmpxtpu = await new DB(`empxtpus`).getId([idKeyEmpleado]);
             try{
-                await new DB(`empxtpus`).delete(idKey);
-                await new DB(`empleados`).delete(idKey);
+                console.log(idKeyEmpxtpu,idKeyEmpleado);
+                await new DB(`empxtpus`).delete(idKeyEmpxtpu);
+                //await new DB(`empleados`).delete(idKeyEmpleado);
                 showMessage(`Usuario eliminado correctamente`,true);
                 this.remove();                
             }catch(err){
@@ -302,8 +304,11 @@ export class NewUsersManager extends HTMLElement {
         }else{
             try{
                 await new DB(`empleados`).add(data);
+                // delete the birth, because will give error in the getId() 
+                let data2 = data;
+                delete data2['NACIMIENTO'];
                 let empxtpus = {
-                    _id:await new DB(`empleados`).getId(Object.values(data)),
+                    id_empleado:await new DB(`empleados`).getId(Object.values(data2)),
                     id_tpuesto:await new DB(`tpuestos`).getId([tpuesto])
                 }
                 await new DB(`empxtpus`).add(empxtpus);

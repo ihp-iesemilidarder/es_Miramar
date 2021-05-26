@@ -4,12 +4,12 @@ const Platos = require('./Platos');
 const Schema = mongoose.Schema;
 
 const pedxplasSchema = new Schema({
-    _id:{
-        type:Schema.ObjectId,
+    id_pedido:{
+        type:String,
         ref:Pedidos
     },
     id_plato:{
-        type:Schema.ObjectId,
+        type:String,
         ref:Platos
     },
 },

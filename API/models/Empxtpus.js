@@ -4,12 +4,12 @@ const Tpuestos = require('./Tpuestos');
 const Schema = mongoose.Schema;
 
 const empxtpusSchema = new Schema({
-    _id:{
-        type:Schema.ObjectId,
+    id_empleado:{
+        type:String,
         ref:Empleados
     },
     id_tpuesto:{
-        type:Schema.ObjectId,
+        type:String,
         ref:Tpuestos
     }
 },
