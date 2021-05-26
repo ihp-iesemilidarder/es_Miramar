@@ -13,7 +13,6 @@ export class DB {
             let idKey = (id) ? `/${id}` : ``;
             let res = await fetch(`${this.API}${idKey}`);
             let data = await res.json();
-            let err = res.ca
             if (filter) {
                 return data.filter(el => el[filter[0]] == filter[1]);
             } else {
@@ -26,6 +25,7 @@ export class DB {
         }
 
     }
+
     // return the _id current with the filters specified
     async getId(filter) {
         let res = await fetch(`${this.API}`);
@@ -68,20 +68,20 @@ export class DB {
                             }
                         }
                     } else if (typeof value == 'object') {
-                        console.log("=========VALUE IS OBJECT==============");
+                        //console.log("=========VALUE IS OBJECT==============");
                         if (Array.isArray(word)) {
                             for (let subword of word) {
                                 if (value._id == subword) {
                                     check++;
                                     getObj = obj;
-                                    console.log(`value:${value}==subword:${subword}  ${check} 1++`);
+                                    //console.log(`value:${value}==subword:${subword}  ${check} 1++`);
                                 }
                             }
                         } else {
                             if (value._id == word) {
                                 check++;
                                 getObj = obj;
-                                console.log(`value:${value}==word:${word}  ${check} 1++`);
+                                //console.log(`value:${value}==word:${word}  ${check} 1++`);
                             }
                         }
                     } else {

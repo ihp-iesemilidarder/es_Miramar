@@ -5,6 +5,9 @@
 /*user's control panel*/
 @import 'panel.css';
 @import 'animations.css';
+
+@import './admin.css';
+@import './waiter.css';
 *{
     border: none;
     user-select: none;

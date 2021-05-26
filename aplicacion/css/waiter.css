@@ -1,0 +1,13 @@
+main#UserWaiter{
+    display: grid;
+    grid-template-areas: 'list';
+    grid-template-rows: 100vh;
+}
+list-tables{
+    grid-area: list;
+    background: #e7e7e5;
+    width: auto;
+    height: auto;
+    margin: 4%;
+    border: 10px solid #6d80be;
+}
