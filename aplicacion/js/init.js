@@ -1,173 +1,173 @@
 // Here are declared the constants and variables that will use in all the project.
-window.API = "http://192.168.0.4:5000/miramar";
+window.API = "http://localhost:5000/miramar";
 window.body = document.querySelector("body");
 
-export class DB{
+export class DB {
 
-    constructor(collection){
-        this.API=window.API+"/"+collection;
+    constructor(collection) {
+        this.API = window.API + "/" + collection;
     }
 
-    async show(id,filter){
-        try{
-            let idKey = (id)?`/${id}`:``;
+    async show(id, filter) {
+        try {
+            let idKey = (id) ? `/${id}` : ``;
             let res = await fetch(`${this.API}${idKey}`);
             let data = await res.json();
             let err = res.ca
-            if(filter){
-                return data.filter(el=>el[filter[0]]==filter[1]);
-            }else{
+            if (filter) {
+                return data.filter(el => el[filter[0]] == filter[1]);
+            } else {
                 return data;
             }
-        }catch(err){
-            if(typeof Promise){
-                showMessage(`error API`,false);
+        } catch (err) {
+            if (typeof Promise) {
+                showMessage(`error API`, false);
             }
         }
 
     }
-   // return the _id current with the filters specified
-   async getId(filter){
-            let res = await fetch(`${this.API}`);
-            let data = await res.json();
-            // variable that will contain the _id
-            let id;
-            let getObj;
-            console.log(filter);
-            console.log(data);
-            for(let obj of data){
-                let check = 0;
-                //get all current object's values
-                let values = Object.values(obj);
-                for(let word of filter){
-                    for(let value of values){
+    // return the _id current with the filters specified
+    async getId(filter) {
+        let res = await fetch(`${this.API}`);
+        let data = await res.json();
+        // variable that will contain the _id
+        let id;
+        let getObj;
+        /* console.log(filter);
+        console.log(data); */
+        for (let obj of data) {
+            let check = 0;
+            //get all current object's values
+            let values = Object.values(obj);
+            for (let word of filter) {
+                for (let value of values) {
 
-                        // if the value is array
-                        if(Array.isArray(value)){
-                            
-                            // iterate subvalues
-                            for(let subvalue of value){
+                    // if the value is array
+                    if (Array.isArray(value)) {
 
-                                //if word is array
-                                if(Array.isArray(word)){
-                                    for(let subword of word){
-                                        // compare the subvalues and subwords
-                                        if(subvalue==subword){
-                                            check++;
-                                            getObj=obj;
-                                            console.log(`subvalue:${subvalue}==subword:${subword}  ${check} 1++`);
-                                        }                                        
+                        // iterate subvalues
+                        for (let subvalue of value) {
+
+                            //if word is array
+                            if (Array.isArray(word)) {
+                                for (let subword of word) {
+                                    // compare the subvalues and subwords
+                                    if (subvalue == subword) {
+                                        check++;
+                                        getObj = obj;
+                                        //console.log(`subvalue:${subvalue}==subword:${subword}  ${check} 1++`);
                                     }
-                                }else{
-                                    if(subvalue==word){
-                                        check++;
-                                        getObj=obj;
-                                        console.log(`subvalue:${subvalue}==word:${word}  ${check} 1++`);
-                                    }  
+                                }
+                            } else {
+                                if (subvalue == word) {
+                                    check++;
+                                    getObj = obj;
+                                    //console.log(`subvalue:${subvalue}==word:${word}  ${check} 1++`);
                                 }
                             }
-                        }else if(typeof value == 'object'){
-                            console.log("=========VALUE IS OBJECT==============");
-                            console.log(value);
-                            if(Array.isArray(word)){
-                                for(let subword of word){
-                                    if(value._id==subword){
-                                        check++;
-                                        getObj=obj;
-                                        console.log(`value:${value}==subword:${subword}  ${check} 1++`);
-                                    }                                        
-                                }
-                            }else{
-                                if(value._id==word){
+                        }
+                    } else if (typeof value == 'object') {
+                        console.log("=========VALUE IS OBJECT==============");
+                        console.log(value);
+                        if (Array.isArray(word)) {
+                            for (let subword of word) {
+                                if (value._id == subword) {
                                     check++;
-                                    getObj=obj;
-                                    console.log(`value:${value}==word:${word}  ${check} 1++`);
-                                }  
-                            }                        
-                        }else{
-                            if(Array.isArray(word)){
-                                for(let subword of word){
-                                    if(value==subword){
-                                        check++;
-                                        getObj=obj;
-                                        console.log(`value:${value}==subword:${subword}  ${check} 1++`);
-                                    }                                        
+                                    getObj = obj;
+                                    console.log(`value:${value}==subword:${subword}  ${check} 1++`);
                                 }
-                            }else{
-                                if(value==word){
+                            }
+                        } else {
+                            if (value._id == word) {
+                                check++;
+                                getObj = obj;
+                                console.log(`value:${value}==word:${word}  ${check} 1++`);
+                            }
+                        }
+                    } else {
+                        if (Array.isArray(word)) {
+                            for (let subword of word) {
+                                if (value == subword) {
                                     check++;
-                                    getObj=obj;
-                                    console.log(`value:${value}==word:${word}  ${check} 1++`);
-                                }  
+                                    getObj = obj;
+                                    //console.log(`value:${value}==subword:${subword}  ${check} 1++`);
+                                }
+                            }
+                        } else {
+                            if (value == word) {
+                                check++;
+                                getObj = obj;
+                                //console.log(`value:${value}==word:${word}  ${check} 1++`);
                             }
                         }
                     }
-                }
-                //if is equal, means than is object has the filter
-                let count=0;
-                for(let fil of filter){
-                    if(Array.isArray(fil)){
-                        for(let subfil of fil){
-                            count++;
-                        }
-                    }else{
-                        count++;
-                    }
-                }
-                console.log(`check:${check},count:${count}`);
-                if(check==count){
-                    console.log(`${check}==${count}`);
-                    id=getObj._id;
-                    console.log(getObj);
-                    break;
-                }else{
-                    id=false;
-                    check=0;
                 }
             }
-            return id;
-   }
+            //if is equal, means than is object has the filter
+            let count = 0;
+            for (let fil of filter) {
+                if (Array.isArray(fil)) {
+                    for (let subfil of fil) {
+                        count++;
+                    }
+                } else {
+                    count++;
+                }
+            }
+            console.log(`check:${check},count:${count}`);
+            if (check == count) {
+                console.log(`${check}==${count}`);
+                id = getObj._id;
+                console.log(getObj);
+                break;
+            } else {
+                id = false;
+                check = 0;
+            }
+        }
+        return id;
+    }
 
-    async delete(key){
-        try{
-            await fetch(`${this.API}/${key}`,{method:'DELETE'});
+    async delete(key) {
+        try {
+            await fetch(`${this.API}/${key}`, { method: 'DELETE' });
             return true;
-        }catch(err){
-            if(typeof Promise){
+        } catch (err) {
+            if (typeof Promise) {
                 return false;
             }
         }
     }
 
-    async update(id,data){
-        try{
-            data["id"]=id;
-            await fetch(this.API,{
-                method:'PUT',
-                headers:{
-                    'Accept':'application/json',
-                    'Content-Type':'application/json'
+    async update(id, data) {
+        try {
+            data["id"] = id;
+            await fetch(this.API, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             });
             return true;
-        }catch(err){
-            if(typeof Promise){
+        } catch (err) {
+            if (typeof Promise) {
                 return false;
             }
         }
     }
 
-    async add(data){
-        await fetch(this.API,{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
+    async add(data) {
+        await fetch(this.API, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
         });
-        return true;            
+        return true;
     }
 }
 
@@ -242,12 +242,12 @@ export const insertHTML = (html) => {
 }
 
 // show a custom message
-export const showMessage = (text, check=Boolean) => {
-    let color='';
-    if(check==false){
-        color='rgb(255, 73, 73)';
-    }else{
-        color='#26ca26';
+export const showMessage = (text, check = Boolean) => {
+    let color = '';
+    if (check == false) {
+        color = 'rgb(255, 73, 73)';
+    } else {
+        color = '#26ca26';
     }
     window.body.insertAdjacentHTML("beforeend", `<box-message style='background:${color};'>${text}</box-message>`);
 }
