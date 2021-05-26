@@ -35,6 +35,7 @@ export class DB {
         let getObj;
         /* console.log(filter);
         console.log(data); */
+        if (data.length==0) return false;
         for (let obj of data) {
             let check = 0;
             //get all current object's values
@@ -68,7 +69,6 @@ export class DB {
                         }
                     } else if (typeof value == 'object') {
                         console.log("=========VALUE IS OBJECT==============");
-                        console.log(value);
                         if (Array.isArray(word)) {
                             for (let subword of word) {
                                 if (value._id == subword) {

@@ -56,10 +56,10 @@ users-list{
         filter: drop-shadow(5px 5px 1px rgba(0,0,0,.2));
     }
     /* select tpuesto*/
-        data-user .select_tpuesto:hover > div{
+        data-user .select_tpuesto:hover > div, data-user .select_gender:hover > div{
             display:flex;
         }
-        data-user .select_tpuesto > div{
+        data-user .select_tpuesto > div, data-user .select_gender > div{
             display: none;
             flex-direction: column;
             font-size: .8em;
@@ -69,13 +69,25 @@ users-list{
             background: #e7e7e5;
             position: fixed;
         }
-        data-user .select_tpuesto > div span{
+        data-user .select_gender > div{
+            margin-left: 0%;
+        }
+        data-user .select_tpuesto > div span, data-user .select_gender > div span{
             padding: .2%;
             cursor: pointer;
             transition: .3s;
         }
-        data-user .select_tpuesto > div span:hover{
+        data-user .select_tpuesto > div span:hover,data-user .select_gender > div span:hover{
             background: rgba(0, 0, 0, .2)!important;
+        }
+        data-user input[type='date'],data-user input[type='date']:disabled{
+            font-family: kinder;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            background: transparent;
+            color: black;
+            font-size: 1em;
         }
 
 /* form for add new users*/
