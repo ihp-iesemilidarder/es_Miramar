@@ -1,11 +1,30 @@
+import {Storage,insertHTML,showMessage,DB} from './init.js';
+
 class ListTables extends HTMLElement{
     constructor(){
         super();
         this.html='';
     }
 
-    printTables(){
-        this.innerHTML=``;
+    printTable(table){
+        this.html+=`<data-table number='${table.NUMERO}' busy='${table.OCUPADO}' title='people: ${table.PERSONAS}\nnumber: ${table.NUMERO}'></data-table>`;
+    }
+
+    showForm(){
+        let form = document.querySelector('main#UserWaiter form');
+        form.style.display='block';
+    }
+
+    async printTables(){
+        this.html='<div>';
+        let tables = await new DB(`mesas`).show();
+        for(let table of tables){
+            this.printTable(table);
+        }
+        this.html+='</div>';
+        insertHTML(this.html,this);
+        insertHTML(`<i class='fas fa-plus'></i>`,this);
+        this.querySelector('i.fa-plus').addEventListener('click',()=>this.showForm());
     }
 
     connectedCallback(){
@@ -13,4 +32,17 @@ class ListTables extends HTMLElement{
     }
 }
 
+class Table extends HTMLElement{
+    constructor(){
+        super();
+        this.number = this.getAttribute('number');
+        this.busy = this.getAttribute('busy');
+    }
+
+    connectedCallback(){
+        this.innerHTML+=`<i class='fas fa-times'></i>`;
+    }
+}
+
 window.customElements.define('list-tables',ListTables);
+window.customElements.define('data-table',Table);

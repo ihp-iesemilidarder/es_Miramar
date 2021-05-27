@@ -16,3 +16,12 @@
         left: 10%;
     }
 }
+
+@keyframes displayFormAddTables{
+    0%{
+        bottom: -10%;
+    }
+    100%{
+        bottom:0;
+    }
+}

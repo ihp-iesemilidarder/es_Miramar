@@ -1,5 +1,5 @@
 // Here are declared the constants and variables that will use in all the project.
-window.API = "http://localhost:5000/miramar";
+window.API = "http://192.168.0.4:5000/miramar";
 window.body = document.querySelector("body");
 
 export class DB {
@@ -237,8 +237,9 @@ export class DateOperators {
 }
 
 // this function print HTML in the end the DOM 
-export const insertHTML = (html) => {
-    window.body.insertAdjacentHTML("beforeend", html);
+export const insertHTML = (html,target) => {
+    if(!target) target = window.body;
+    target.insertAdjacentHTML("beforeend", html);
 }
 
 // show a custom message
