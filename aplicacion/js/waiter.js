@@ -18,8 +18,8 @@ const printForm=()=>{
     insertHTML(`
         <form method='POST'>
             <label>Ocupado: <input type='checkbox'></label>
-            <input type='number' name='number' placeholder='numero'>
-            <input type='number' name='people' placeholder='personas'>
+            <input type='number'  min='1' name='number' placeholder='numero'>
+            <input type='number' min='1' name='people' placeholder='personas'>
             <input type='submit' value='añadir'>
         </form>
     `,document.querySelector('main#UserWaiter'));
@@ -59,7 +59,7 @@ async function addTable(number,people,check){
         await new DB('mesas').add(data);
         showMessage('Mesa añadida',true);
         let listTables = document.querySelector('main#UserWaiter list-tables > div');
-        insertHTML(`<data-table number='${number}' busy='${check}' title='people: ${people}\nnumber: ${number}'></data-table>`,listTables);
+        insertHTML(`<data-table class='table' number='${number}' busy='${check}' title='people: ${people}\nnumber: ${number}'></data-table>`,listTables);
         let form = document.querySelector('main#UserWaiter form');
         form.removeAttribute('style');
     }catch(err){

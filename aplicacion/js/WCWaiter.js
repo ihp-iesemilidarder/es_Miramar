@@ -7,7 +7,7 @@ class ListTables extends HTMLElement{
     }
 
     printTable(table){
-        this.html+=`<data-table number='${table.NUMERO}' busy='${table.OCUPADO}' title='people: ${table.PERSONAS}\nnumber: ${table.NUMERO}'></data-table>`;
+        this.html+=`<data-table class='table' number='${table.NUMERO}' busy='${table.OCUPADO}' title='people: ${table.PERSONAS}\nnumber: ${table.NUMERO}'></data-table>`;
     }
 
     showForm(){
@@ -39,8 +39,29 @@ class Table extends HTMLElement{
         this.busy = this.getAttribute('busy');
     }
 
+    manTable(){
+        alert('table´s management');
+    }
+
+    eventTable(e){
+        let dom = e.target.tagName;
+        if(dom=='I'){
+            this.delTable();
+        }else{
+            this.manTable();
+        }
+    }
+
+    async delTable(){
+        let id = await new DB(`mesas`).getId([this.number]);
+        await new DB('mesas').delete(id);
+        showMessage('Mesa eliminada',true);
+        this.remove();
+    }
+
     connectedCallback(){
         this.innerHTML+=`<i class='fas fa-times'></i>`;
+        this.addEventListener('click',this.eventTable);
     }
 }
 
