@@ -73,6 +73,7 @@ list-tables > i.fa-plus:hover{
     padding: 2%;
     bottom: 0;
     width: 100%;
+    color:white;
     display: none;
     animation: displayFormAddTables;
     animation-duration: 1s;
@@ -96,5 +97,9 @@ list-tables > i.fa-plus:hover{
     }
     list-tables {
         height: 75%;
+    }
+    #UserWaiter form input {
+        padding: 2%;
+        margin: 1%;
     }
 }
