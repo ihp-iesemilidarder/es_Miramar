@@ -1,6 +1,7 @@
 import {Storage,insertHTML,showMessage} from './init.js';
 import {startAdmin} from './admin.js';
 import {startWaiter} from './waiter.js';
+import {startCook} from './cook.js';
 
 // Look the user's profile and execute the function specified
 const profile=()=>{
