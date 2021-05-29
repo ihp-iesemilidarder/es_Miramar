@@ -83,7 +83,6 @@ export class Users extends HTMLElement {
                 let idKeyEmpleado = await idUser(nombre, apellidos);
                 let idKeyEmpxtpu = await new DB(`empxtpus`).getId([idKeyEmpleado]);
                 try {
-                    console.log(idKeyEmpxtpu, idKeyEmpleado);
                     await new DB(`empxtpus`).delete(idKeyEmpxtpu);
                     await new DB(`empleados`).delete(idKeyEmpleado);
                     showMessage(`Usuario eliminado correctamente`, true);
@@ -102,25 +101,25 @@ export class Users extends HTMLElement {
 
     }
 
-    // the event for edit a user
-    activeEditable(name, lastname, password, date) {
-        name.setAttribute('contenteditable', '');
-        lastname.setAttribute('contenteditable', '');
-        password.setAttribute('contenteditable', '');
-        date.removeAttribute('disabled');
-        this.printTpuestos();
-        this.printGender();
-    }
+    // the events for edit a user
+        activeEditable(name, lastname, password, date) {
+            name.setAttribute('contenteditable', '');
+            lastname.setAttribute('contenteditable', '');
+            password.setAttribute('contenteditable', '');
+            date.removeAttribute('disabled');
+            this.printTpuestos();
+            this.printGender();
+        }
 
-    disableEditable(name, lastname, password, date) {
-        name.removeAttribute('contenteditable');
-        lastname.removeAttribute('contenteditable');
-        password.removeAttribute('contenteditable');
-        date.setAttribute('disabled', '');
-        this.querySelector('.data .select_tpuesto > div').remove();
-        this.querySelector('.data .select_gender > div').remove();
-        this.updateUser();
-    }
+        disableEditable(name, lastname, password, date) {
+            name.removeAttribute('contenteditable');
+            lastname.removeAttribute('contenteditable');
+            password.removeAttribute('contenteditable');
+            date.setAttribute('disabled', '');
+            this.querySelector('.data .select_tpuesto > div').remove();
+            this.querySelector('.data .select_gender > div').remove();
+            this.updateUser();
+        }
 
     async updateUser() {
         let password = this.querySelector('.data .password').textContent;
@@ -139,7 +138,6 @@ export class Users extends HTMLElement {
         let currentTpuesto = this.querySelector('.data .tpuesto').textContent;
         let previousTpuesto = this.tpuesto;
         try {
-            console.log(await new DB(`empleados`).getId(Object.values(previousData)));
             let id = await new DB(`empleados`).getId(Object.values(previousData));
             // update the 'empleados'
             if (password == 'new-password') delete postData['CONTRASENA'];
@@ -155,7 +153,6 @@ export class Users extends HTMLElement {
             let idCurrentTpuesto = await new DB(`tpuestos`).getId([currentTpuesto]);
             let idPreviousTpuesto = await new DB(`tpuestos`).getId([previousTpuesto]);
             let idempxtpusCurrent = await new DB(`empxtpus`).getId([idPreviousTpuesto]);
-            console.log(`idPreviousTPuesto: ${previousTpuesto} ${idPreviousTpuesto}, idempxtpusCurrent: ${idempxtpusCurrent}`);
             let dataTpuestoCurrent = {
                 id_tpuesto: idCurrentTpuesto
             }
@@ -306,7 +303,6 @@ export class NewUsersManager extends HTMLElement {
             } else if (new Date(birth) > new Date()) {
                 throw new Error('La fecha es actual o posterior');
             }
-            console.log(await new DB(`empleados`).getId([data.NOMBRE, data.APELLIDOS, data.GENERO]));
             if (await new DB(`empleados`).getId([data.NOMBRE, data.APELLIDOS, data.GENERO]) != false) {
                 throw new Error('El usuario ya existe');
             };

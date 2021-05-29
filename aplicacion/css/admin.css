@@ -159,7 +159,7 @@ body main#UserAdmin > .containers{
         margin: 3%;
     }
     data-user img{
-        width: 30%;
+        width: 30%!important;
         transform: scale(.5);
     }
     data-user > div{
@@ -175,7 +175,7 @@ body main#UserAdmin > .containers{
     data-user .select_tpuesto > div{
         width: 40%;
     }
-    new-user{
-
+    data-user > div span{
+        font-size: 1em;
     }
 }

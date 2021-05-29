@@ -1,0 +1,20 @@
+main#UserCook{
+    display: grid;
+    grid-template-areas: 'ingredients';
+    grid-template-rows: 100vh;
+}
+list-ingredients{
+    grid-area: ingredients;
+    background: #e7e7e5;
+    width: auto;
+    height: auto;
+    margin: 4%;
+    border: 10px solid #feba01;
+    position: relative;
+    display: table;
+    text-align: center;
+}
+list-ingredients h2{
+    display: table-cell;
+    vertical-align: middle;
+}

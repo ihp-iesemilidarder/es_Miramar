@@ -27,6 +27,30 @@ export class DB {
     }
 
     // return the _id current with the filters specified
+    /* EXPLANATION:
+        The method gets as argumment a array (NO object).
+        This does the `fetch` specified in the constructor's parameter, getting the database object's data.
+        This Initializes two variables:
+            id: This will contain the object's identifier
+            getObj: This will contain the object that complies with the filters (variable `filter`).
+        If the fetch's response has length 0, return false.
+
+        This do a "loop for" by the response got. For each element initialize the variable `check`, will contains the count the filter's elements
+        with the condition checked successfully.
+
+        In the first loop gets all current object's values. For each response's object, itinerate each filter's elements and inside, also iterate each
+        values' elements got by Object.values() of variable `obj`.
+
+        Now if the value is a array, then this iterate with array's element, gettings his subvalues. But if also the `word` (the filter' iterations) is a
+        array, too will iterate it.
+        Also, if the `value` is Object, then this will get his id (_id).
+
+        Finally, even if `word` or `value`, is array or no. This compare the `value`/`subvalue` with the `word`/`subword`, if this are equal, then
+        the variable `check` is augmented to one. And keeps the current object in the variable `getObj`.
+
+        Finally counts the filter's elements, include the array's elements inside. And this compare with the amount of 'check'.
+        If this is equal, then the variable `id` will be the property "_id" of current object. And `id` is returned.
+    */
     async getId(filter) {
         let res = await fetch(`${this.API}`);
         let data = await res.json();
@@ -103,7 +127,7 @@ export class DB {
                     }
                 }
             }
-            //if is equal, means than is object has the filter
+            //count the array's elements
             let count = 0;
             for (let fil of filter) {
                 if (Array.isArray(fil)) {
@@ -114,13 +138,15 @@ export class DB {
                     count++;
                 }
             }
-            console.log(`check:${check},count:${count}`);
+            //console.log(`check:${check},count:${count}`);
+            //if is equal, means than is object has the filter
             if (check == count) {
-                console.log(`${check}==${count}`);
+                //console.log(`${check}==${count}`);
                 id = getObj._id;
-                console.log(getObj);
+                //console.log(getObj);
                 break;
             } else {
+                //initialize
                 id = false;
                 check = 0;
             }

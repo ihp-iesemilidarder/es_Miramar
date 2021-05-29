@@ -1,3 +1,8 @@
+import {Storage,insertHTML,showMessage} from './init.js';
 export const startCook=()=>{
-    alert('cook´s management');
+    insertHTML(`
+        <main id='UserCook'>
+            <list-ingredients></list-ingredients>
+        </main>
+    `);
 }

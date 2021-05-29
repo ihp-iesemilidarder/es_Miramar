@@ -102,4 +102,7 @@ list-tables > i.fa-plus:hover{
         padding: 2%;
         margin: 1%;
     }
+    #UserWaiter form label{
+        display: block;
+    }
 }
